@@ -7,6 +7,11 @@ using UnityEngine;
 /// Rayの色
 ///     赤：縦 V
 ///     青：横 H
+///     
+///changeSpeed
+///     プレイヤーを追跡中は　　　　　　   3
+///     プレイヤーの隣についたら　　　　   1
+///     プレイヤーのフロントに当たると　　-1
 /// </summary>
 
 public class PoliceAI : MonoBehaviour {
@@ -15,8 +20,11 @@ public class PoliceAI : MonoBehaviour {
     [SerializeField] private float distanceH;  //Rayを表示するRayの長さ
 
     [SerializeField] private float SpeedH;      //PoliceAIの速度
+    [SerializeField] private float SpeedV;      //
 
-    private float direction;                   //方向
+    private float direction;                    //方向
+
+    private int changeSpeed = 3;　　　　　　　  //初期速度（倍率）
 
     private string Name;
 
@@ -39,10 +47,8 @@ public class PoliceAI : MonoBehaviour {
             Ray(i, false);
         }
 
-        if(MoveChack)
-        {
-
-        }
+        //Z方向に向けて移動
+        transform.Translate(0, 0, SpeedV * changeSpeed * Time.deltaTime);
     }
 
     //四方のRay作成
@@ -104,6 +110,12 @@ public class PoliceAI : MonoBehaviour {
         {
             //移動できない
             return false;
+        }
+
+        //当たったのがPlayerなら
+        if(hit.collider.tag == "Player")
+        {
+            changeSpeed = 1;
         }
 
         //何もなければ移動可能
