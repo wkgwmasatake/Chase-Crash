@@ -49,6 +49,7 @@ public class PoliceAI : MonoBehaviour {
 
         //Z方向に向けて移動
         transform.Translate(0, 0, SpeedV * changeSpeed * Time.deltaTime);
+        //transform.localPosition += new Vector3(0, 0, SpeedV * changeSpeed * Time.deltaTime);
     }
 
     //四方のRay作成
@@ -61,7 +62,7 @@ public class PoliceAI : MonoBehaviour {
         if (direction)
         {
             //上下のRay
-            Ray ray = new Ray(transform.position, x * transform.forward);
+            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), x * transform.forward);
             Debug.DrawRay(ray.origin, ray.direction * distanceV, Color.red, 5, true);
 
             //Rayが衝突したかどうか
@@ -77,22 +78,22 @@ public class PoliceAI : MonoBehaviour {
         else
         {
             //左右のRay
-            Ray ray = new Ray(transform.position, x * transform.right);
+            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), x * transform.right);
             Debug.DrawRay(ray.origin, ray.direction * distanceH, Color.blue, 5, true);
 
             //Rayが衝突したかどうか
             if (Physics.Raycast(ray, out hit, distanceH))
             {
                 //テストプレイとして衝突したオブジェクトの名前を取得
-                Name = hit.collider.name;
+                Name = hit.collider.gameObject.name;
 
                 if( x == 1 )
                 {
-                    MoveChack = Chack(hit);
+                    MoveChack = Chack(hit.collider.gameObject.tag);
                 }
                 else if( x == -1 )
                 {
-                    MoveChack = Chack(hit);
+                    MoveChack = Chack(hit.collider.gameObject.tag);
                 }
             }
 
@@ -103,19 +104,23 @@ public class PoliceAI : MonoBehaviour {
     }
 
     //移動可能か調べる
-    bool Chack(RaycastHit hit)
+    bool Chack(string tag)
     {
+        Debug.Log(tag);
+
         //当たったのが壁なら
-        if(hit.collider.tag == "Wall")
+        if(tag == "Wall")
         {
             //移動できない
             return false;
         }
 
         //当たったのがPlayerなら
-        if(hit.collider.tag == "Player")
+        if(tag == "Player")
         {
             changeSpeed = 1;
+
+            return false;
         }
 
         //何もなければ移動可能
