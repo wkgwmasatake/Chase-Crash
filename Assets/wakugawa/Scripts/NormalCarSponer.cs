@@ -6,7 +6,6 @@ public class NormalCarSponer : MonoBehaviour
 {
 
     public GameObject[] EnemyCar;
-    public GameObject PoliceCar;
 
     public GameObject[] SpawnPoint;
 
