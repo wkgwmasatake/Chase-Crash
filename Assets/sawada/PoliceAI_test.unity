@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fda538f30f5124daf4f2d103fecc04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveFlg: 1
+  MoveFlg: 0
 --- !u!54 &632296676
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -740,7 +740,7 @@ Prefab:
     - target: {fileID: 114897679853966266, guid: 95da281e856e7434e8bde3316b0ad643,
         type: 2}
       propertyPath: SpeedV
-      value: 5.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1705764605426708, guid: 95da281e856e7434e8bde3316b0ad643, type: 2}
       propertyPath: m_TagString

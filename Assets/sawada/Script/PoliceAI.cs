@@ -26,6 +26,8 @@ public class PoliceAI : MonoBehaviour {
     [SerializeField] private float SpeedH;      //PoliceAIの速度
     [SerializeField] private float SpeedV;
 
+    private PlayerCollider player;
+    
     private bool Player_MoveFlg;
 
     private Vector3 Move_X = new Vector3(4f, 0.0f, 0.0f);
@@ -108,6 +110,10 @@ public class PoliceAI : MonoBehaviour {
         }
         Move();
 
+        if(player.GetComponent<PlayerController>().ReturnPlayerTransform().position.z <= transform.position.z)
+        {
+            changeSpeed = 0;
+        }
     }
 
     //次の目的地を設定する
@@ -138,10 +144,21 @@ public class PoliceAI : MonoBehaviour {
             }
         }
 
-        if(randomMove == 2 && AttackFlg)
+        if (randomMove == 2 && AttackFlg)
         {
-            randomMove = 0;
-            targetPos = new Vector3(transform.position.x * vDirection.x + Move_X.x, 0, 0);
+            if (vDirection.normalized.x == 1)
+            {
+                Debug.Log("入った！");
+                randomMove = 0;
+                targetPos = new Vector3(transform.position.x * vDirection.x + Move_X.x, 0, 0);
+            }
+
+            if(vDirection.normalized.x == -1)
+            {
+                Debug.Log("入った！");
+                randomMove = 0;
+                targetPos = new Vector3(transform.position.x * vDirection.x - Move_X.x, 0, 0);
+            }
         }
     }
 
@@ -155,7 +172,7 @@ public class PoliceAI : MonoBehaviour {
     {
         RaycastHit FwdHit;
         Ray FwdRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), transform.forward);
-        Debug.DrawRay(FwdRay.origin, FwdRay.direction * distanceV, Color.red, 5, false);
+        Debug.DrawRay(FwdRay.origin, FwdRay.direction * distanceV, Color.red, 1, false);
 
         if(Physics.Raycast(FwdRay, out FwdHit, distanceV))
         {
@@ -190,13 +207,14 @@ public class PoliceAI : MonoBehaviour {
     {
         RaycastHit BckHit;
         Ray BckRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), -transform.forward);
-        Debug.DrawRay(BckRay.origin, BckRay.direction * distanceV * 10, Color.red, 5, false);
+        Debug.DrawRay(BckRay.origin, BckRay.direction * distanceV * 10, Color.red, 1, false);
 
         if (Physics.Raycast(BckRay, out BckHit, distanceV * 10))
         {
             Name = BckHit.collider.gameObject.name;
             if(BckHit.collider.gameObject.tag == "Front")
             {
+                Debug.Log("aalladladlalda");
                 RayFlg = false;
                 FrontFlg = 0;
             }
@@ -209,7 +227,7 @@ public class PoliceAI : MonoBehaviour {
 
         RaycastHit RightHit;
         Ray RightRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), transform.right);
-        Debug.DrawRay(RightRay.origin, RightRay.direction * distanceH, Color.red, 5, false);
+        Debug.DrawRay(RightRay.origin, RightRay.direction * distanceH, Color.red, 1, false);
 
         if (Physics.Raycast(RightRay, out RightHit, distanceH))
         {
@@ -223,6 +241,7 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
+                    //changeSpeed = 0;
                     if (randomMove == 1)
                     {
                         changeSpeed = 2;
@@ -251,7 +270,7 @@ public class PoliceAI : MonoBehaviour {
     {
         RaycastHit LeftHit;
         Ray LeftRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), -transform.right);
-        Debug.DrawRay(LeftRay.origin, LeftRay.direction * distanceH, Color.red, 5, false);
+        Debug.DrawRay(LeftRay.origin, LeftRay.direction * distanceH, Color.red, 1, false);
 
         if (Physics.Raycast(LeftRay, out LeftHit, distanceH))
         {
@@ -265,6 +284,7 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
+                    //changeSpeed = 0;
                     if (randomMove == 1)
                     {
                         changeSpeed = 2;
@@ -295,10 +315,10 @@ public class PoliceAI : MonoBehaviour {
             return 1;
         }
 
-        if(tag == "Player")
-        {
-            return 2;
-        }
+        //if(tag == "Player")
+        //{
+        //    return 2;
+        //}
 
         if(tag == "Front")
         {
@@ -321,18 +341,24 @@ public class PoliceAI : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             //ぶつかった相手が動いていたら
-            if (other.GetComponent<test5>()._MoveFlg)
+            if (other.gameObject.GetComponent<PlayerController>()._player_move)
             {
-                
+
             }
             //ぶつかった相手が動いていなかったら
-            else if (!other.GetComponent<test5>()._MoveFlg)
+            else if (!other.gameObject.GetComponent<PlayerController>()._player_move)
             {
                 randomMove = Random.Range(1, 3);
                 AttackFlg = false;
 
-                changeSpeed = 0;
+                //changeSpeed = 0;
             }
         }
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
     }
 }
