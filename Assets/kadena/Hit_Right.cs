@@ -23,15 +23,16 @@ public class Hit_Right : MonoBehaviour {
         {
             Debug.Log("NormalEnemy");
             Destroy(parent.gameObject);
+            GameStateStash.GameOver();
         }
         else if (other.gameObject.tag == "Wall")//壁と衝突
         {
             Debug.Log("Wall");
             Destroy(parent.gameObject);
+            GameStateStash.GameOver();
         }
         else if(other.gameObject.tag == "Enemy")//特殊敵と衝突
         {
-            Debug.Log("NormalEnemy");
             if(player_check.player_move == false)
             {
                 right_enemy = true;                

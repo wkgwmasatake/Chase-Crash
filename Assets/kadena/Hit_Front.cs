@@ -18,6 +18,7 @@ public class Hit_Front : MonoBehaviour {
         {
             Debug.Log("NormalEnemy");
             Destroy(parent.gameObject);
+            GameStateStash.GameOver();
         }
     }
 }
