@@ -21,6 +21,9 @@ public class GameStateStash : MonoBehaviour {
     //破壊数ノルマ
     public static int _breakCarMaxCount { get; private set; }
 
+    //ゲームオーバーフラグ
+    public static bool _gameOverFlg { get; private set; }
+
     // Use this for initialization
     void Awake()
     {
@@ -38,6 +41,7 @@ public class GameStateStash : MonoBehaviour {
         _maxSpeed = IGAS.maxSpeed;
         _breakCarCount = IGAS.breakCarCount;
         _breakCarMaxCount = IGAS.breakCarMaxCount;
+        _gameOverFlg = IGAS.gameOverFlg;
     }
 
     /// <summary>
@@ -68,5 +72,10 @@ public class GameStateStash : MonoBehaviour {
         {
             _breakCarCount = _breakCarMaxCount;
         }
+    }
+
+    public static void GameOver()
+    {
+        _gameOverFlg = true;
     }
 }
