@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/kaneshi/Scenes/ResultScene.unity
+    guid: d6ae68643ef5e2b4a85747c583b9c842
+  - enabled: 1
+    path: Assets/kaneshi/Scenes/TitleScene.unity
+    guid: 97fc63707ae42af41be1005fa2e0a434
