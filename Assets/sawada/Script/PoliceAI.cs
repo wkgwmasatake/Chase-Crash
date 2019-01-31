@@ -29,6 +29,8 @@ public class PoliceAI : MonoBehaviour {
     private bool Player_MoveFlg;
 
     private Vector3 Move_X = new Vector3(4f, 0.0f, 0.0f);
+    private Vector3 prevPos;
+
     private bool MoveFlg = true;               //自機が動いているか判定
     private bool RayFlg = true;                //Rayを出すか判定
 
@@ -41,6 +43,8 @@ public class PoliceAI : MonoBehaviour {
 
     private bool directionFlgR = false;
     private bool directionFlgL = false;
+
+    private bool AttackFlg = false;
 
     private int randomMove;                 //これからする行動をランダムで決める
 
@@ -109,6 +113,7 @@ public class PoliceAI : MonoBehaviour {
     //次の目的地を設定する
     void SetTargetPosition()
     {
+        prevPos = targetPos;
         if(direction == 1 && MoveCheckV && transform.position.x < 8)
         {
             targetPos = transform.position + Move_X;
@@ -133,8 +138,9 @@ public class PoliceAI : MonoBehaviour {
             }
         }
 
-        if(randomMove == 2)
+        if(randomMove == 2 && AttackFlg)
         {
+            randomMove = 0;
             targetPos = new Vector3(transform.position.x * vDirection.x + Move_X.x, 0, 0);
         }
     }
@@ -224,6 +230,7 @@ public class PoliceAI : MonoBehaviour {
                     else
                     {
                         vDirection = RightRay.direction;
+                        AttackFlg = true;
                     }
                     break;
                 case 3:
@@ -265,6 +272,7 @@ public class PoliceAI : MonoBehaviour {
                     else
                     {
                         vDirection = LeftRay.direction;
+                        AttackFlg = true;
                     }
                     break;
                 case 3:
@@ -305,11 +313,26 @@ public class PoliceAI : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         //自分自身をデストロイ
-        //Destroy(this.gameObject);
-
-        if(other.GetComponent<test5>()._MoveFlg)
+        if (other.gameObject.tag == "Wall" || other.gameObject.tag == "NormalEnemy")
         {
+            Destroy(this.gameObject);
+        }
 
+        if (other.gameObject.tag == "Player")
+        {
+            //ぶつかった相手が動いていたら
+            if (other.GetComponent<test5>()._MoveFlg)
+            {
+                
+            }
+            //ぶつかった相手が動いていなかったら
+            else if (!other.GetComponent<test5>()._MoveFlg)
+            {
+                randomMove = Random.Range(1, 3);
+                AttackFlg = false;
+
+                changeSpeed = 0;
+            }
         }
     }
 }
