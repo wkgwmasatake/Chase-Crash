@@ -12,6 +12,10 @@ using UnityEngine;
 ///     プレイヤーを追跡中は　　　　　　   3
 ///     プレイヤーの隣についたら　　　　   1
 ///     プレイヤーのフロントに当たると　　-1
+///    
+///randomMove
+///     1:プレイヤーの前に
+///     2:プレイヤーにぶつかる
 /// </summary>
 
 public class PoliceAI : MonoBehaviour {
@@ -20,105 +24,292 @@ public class PoliceAI : MonoBehaviour {
     [SerializeField] private float distanceH;  //Rayを表示するRayの長さ
 
     [SerializeField] private float SpeedH;      //PoliceAIの速度
-    [SerializeField] private float SpeedV;      //
+    [SerializeField] private float SpeedV;
 
-    private float direction;                    //方向
+    private bool Player_MoveFlg;
 
-    private int changeSpeed = 3;　　　　　　　  //初期速度（倍率）
+    private Vector3 Move_X = new Vector3(4f, 0.0f, 0.0f);
+    private bool MoveFlg = true;               //自機が動いているか判定
+    private bool RayFlg = true;                //Rayを出すか判定
+
+    private int FrontFlg = 0;                  //自機がフロントの前まで来たか
+
+    private Vector3 vDirection;                //方向(Vector型)
+    private int direction;                     //方向(int型)
+
+    private int randomDirection;               //移動する方向をランダムで決める
+
+    private bool directionFlgR = false;
+    private bool directionFlgL = false;
+
+    private int randomMove;                 //これからする行動をランダムで決める
+
+    private int changeSpeed;　　　　　　　      //初期速度（倍率）
 
     private string Name;
 
-    //移動可能か調べる
-    private bool MoveChack;
+    private Vector3 targetPos;
 
+    //移動可能か調べる
+    private int MoveCheckH;             //横の移動判定
+    private bool MoveCheckV = false;             //縦の移動判定
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        targetPos = transform.position;
+        changeSpeed = 3;
 
+        randomMove = Random.Range(1, 3);
+    }
+
+    //プレイヤー側が参照する動いているかの判定ゲッター
+    public bool _MoveFlg
+    {
+        get { return MoveFlg; }
     }
 
     // Update is called once per frame
-    void Update () {
-
-        //Rayの作成
-        for(int i = 1; i > -2; i -= 2)
-        {
-            Ray(i, true);
-            Ray(i, false);
-        }
-
-        //Z方向に向けて移動
-        transform.Translate(0, 0, SpeedV * changeSpeed * Time.deltaTime);
-    }
-
-    //四方のRay作成
-    void Ray(int x, bool direction)
+    void Update ()
     {
-        //Rayが衝突したコライダーの情報を格納
-        RaycastHit hit;
-
-
-        if (direction)
+        Debug.Log("方向：" + direction);
+        if (transform.position.x == targetPos.x)
         {
-            //上下のRay
-            Ray ray = new Ray(transform.position, x * transform.forward);
-            Debug.DrawRay(ray.origin, ray.direction * distanceV, Color.red, 5, true);
+            //自機は動いていない
+            MoveFlg = false;
 
-            //Rayが衝突したかどうか
-            if(Physics.Raycast(ray, out hit, distanceV))
+            directionFlgL = false;
+            directionFlgR = false;
+
+            if (RayFlg)
             {
-                //テストプレイとして衝突したオブジェクトの名前を取得
-                Name = hit.collider.name;
+                //Rayの作成（四方）
+                FrontRay();
+                BackRay();
+                RightRay();
+                LeftRay();
+            }
+            else
+            {
+                changeSpeed = -2;
             }
 
-            Debug.Log("当たったオブジェクトの名前は : " + Name);
-
+            SetTargetPosition();
+            transform.Translate(0, 0, SpeedV * changeSpeed * Time.deltaTime);
         }
         else
         {
-            //左右のRay
-            Ray ray = new Ray(transform.position, x * transform.right);
-            Debug.DrawRay(ray.origin, ray.direction * distanceH, Color.blue, 5, true);
-
-            //Rayが衝突したかどうか
-            if (Physics.Raycast(ray, out hit, distanceH))
-            {
-                //テストプレイとして衝突したオブジェクトの名前を取得
-                Name = hit.collider.name;
-
-                if( x == 1 )
-                {
-                    MoveChack = Chack(hit);
-                }
-                else if( x == -1 )
-                {
-                    MoveChack = Chack(hit);
-                }
-            }
-
-            Debug.Log("当たったオブジェクトの名前は : " + Name);
-
+            //自機は動いている
+            MoveFlg = true;
         }
+        Move();
 
     }
 
-    //移動可能か調べる
-    bool Chack(RaycastHit hit)
+    //次の目的地を設定する
+    void SetTargetPosition()
     {
-        //当たったのが壁なら
-        if(hit.collider.tag == "Wall")
+        if(direction == 1 && MoveCheckV && transform.position.x < 8)
         {
-            //移動できない
-            return false;
+            targetPos = transform.position + Move_X;
+            return;
         }
 
-        //当たったのがPlayerなら
-        if(hit.collider.tag == "Player")
+        if(direction == -1 && MoveCheckV && transform.position.x > -8)
         {
-            changeSpeed = 1;
+            targetPos = transform.position - Move_X;
+            return;
         }
 
-        //何もなければ移動可能
-        return true;
+        if (FrontFlg == 1)
+        {
+            if (vDirection.normalized.x == 1)
+            {
+                targetPos = new Vector3(transform.position.x + Move_X.x, 0, vDirection.z + 5);
+            }
+            if (vDirection.normalized.x == -1)
+            {
+                targetPos = new Vector3(transform.position.x - Move_X.x, 0, vDirection.z + 5);
+            }
+        }
+
+        if(randomMove == 2)
+        {
+            targetPos = new Vector3(transform.position.x * vDirection.x + Move_X.x, 0, 0);
+        }
+    }
+
+    void Move()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, SpeedH * Time.deltaTime);
+    }
+
+    //前方のRay
+    void FrontRay()
+    {
+        RaycastHit FwdHit;
+        Ray FwdRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), transform.forward);
+        Debug.DrawRay(FwdRay.origin, FwdRay.direction * distanceV, Color.red, 5, false);
+
+        if(Physics.Raycast(FwdRay, out FwdHit, distanceV))
+        {
+            Name = FwdHit.collider.gameObject.name;
+            MoveCheckV = true;
+
+            //方向をランダムで決める
+            randomDirection = Random.Range(0, 2);
+            switch(randomDirection)
+            {
+                case 0:
+                    direction = 1;
+                    break;
+                case 1:
+                    direction = -1;
+                    break;
+            }
+
+            if(directionFlgR && directionFlgL)
+            {
+                direction = 0;
+            }
+        }
+        else
+        {
+            MoveCheckV = false;
+        }
+    }
+
+    //後方のRay
+    void BackRay()
+    {
+        RaycastHit BckHit;
+        Ray BckRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), -transform.forward);
+        Debug.DrawRay(BckRay.origin, BckRay.direction * distanceV * 10, Color.red, 5, false);
+
+        if (Physics.Raycast(BckRay, out BckHit, distanceV * 10))
+        {
+            Name = BckHit.collider.gameObject.name;
+            if(BckHit.collider.gameObject.tag == "Front")
+            {
+                RayFlg = false;
+                FrontFlg = 0;
+            }
+        }
+    }
+
+    //右のRay
+    void RightRay()
+    {
+
+        RaycastHit RightHit;
+        Ray RightRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), transform.right);
+        Debug.DrawRay(RightRay.origin, RightRay.direction * distanceH, Color.red, 5, false);
+
+        if (Physics.Raycast(RightRay, out RightHit, distanceH))
+        {
+            Name = RightHit.collider.gameObject.name;
+
+            MoveCheckH = CheckH(RightHit.collider.gameObject.tag);
+
+            switch (MoveCheckH)
+            {
+                case 0:
+                case 1:
+                    break;
+                case 2:
+                    if (randomMove == 1)
+                    {
+                        changeSpeed = 2;
+                    }
+                    else
+                    {
+                        vDirection = RightRay.direction;
+                    }
+                    break;
+                case 3:
+                    vDirection = RightRay.direction;
+                    break;
+            }
+
+            if(direction == 1)
+            {
+                directionFlgR = true;
+                direction = -1;
+            }
+        }
+    }
+
+    //左のRay
+    void LeftRay()
+    {
+        RaycastHit LeftHit;
+        Ray LeftRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), -transform.right);
+        Debug.DrawRay(LeftRay.origin, LeftRay.direction * distanceH, Color.red, 5, false);
+
+        if (Physics.Raycast(LeftRay, out LeftHit, distanceH))
+        {
+            Name = LeftHit.collider.gameObject.name;
+
+            MoveCheckH = CheckH(LeftHit.collider.gameObject.tag);
+
+            switch(MoveCheckH)
+            {
+                case 0:
+                case 1:
+                    break;
+                case 2:
+                    if (randomMove == 1)
+                    {
+                        changeSpeed = 2;
+                    }
+                    else
+                    {
+                        vDirection = LeftRay.direction;
+                    }
+                    break;
+                case 3:
+                    vDirection = LeftRay.direction;
+                    break;
+            }
+
+            if(direction == -1)
+            {
+                directionFlgL = true;
+                direction = 1;
+            }
+        }
+    }
+
+    int CheckH(string tag)
+    {
+        if(tag == "Wall")
+        {
+            return 1;
+        }
+
+        if(tag == "Player")
+        {
+            return 2;
+        }
+
+        if(tag == "Front")
+        {
+            FrontFlg = 1;
+            return 3;
+        }
+
+        return 0;
+    }
+
+    //衝突判定
+    private void OnTriggerEnter(Collider other)
+    {
+        //自分自身をデストロイ
+        //Destroy(this.gameObject);
+
+        if(other.GetComponent<test5>()._MoveFlg)
+        {
+
+        }
     }
 }
