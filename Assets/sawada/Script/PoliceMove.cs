@@ -83,4 +83,12 @@ public class PoliceMove : MonoBehaviour {
         Debug.Log("うごくみたい");
         transform.position = Vector3.MoveTowards(transform.position, targetPos, SpeedX * Time.deltaTime);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "NormalEnemy")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
