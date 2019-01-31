@@ -9,5 +9,11 @@ public class Hit_Front : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         Front_col = true;
+        if (other.gameObject.tag == "Enemy_1")//
+        {
+            Debug.Log("Unttaged");
+
+        }
+        
     }
 }

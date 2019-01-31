@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hit_Left : MonoBehaviour {
 
     public bool Left_col = false;
-    Rigidbody rb;
+    
     void OnTriggerEnter(Collider other)
     {
         
