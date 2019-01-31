@@ -26,11 +26,11 @@ public class NormalCarSponer : MonoBehaviour
 
         if (SpawnTime < 0)
         {
-            NowSpawnPoint = Random.Range(0, SpawnPoint.Length - 1);
+            NowSpawnPoint = Random.Range(0, SpawnPoint.Length);
 
             while (NowSpawnPoint == OldSpawnPoint)
             {
-                NowSpawnPoint = Random.Range(0, SpawnPoint.Length - 1);
+                NowSpawnPoint = Random.Range(0, SpawnPoint.Length);
             }
 
             OldSpawnPoint = NowSpawnPoint;
