@@ -57,11 +57,12 @@ GameObject:
   - component: {fileID: 23534564469153358}
   - component: {fileID: 64828318754093684}
   - component: {fileID: 65166094033417946}
-  - component: {fileID: 114897679853966266}
   - component: {fileID: 54582359323498782}
+  - component: {fileID: 114946176129034292}
+  - component: {fileID: 114541345804297004}
   m_Layer: 0
   m_Name: Interceptor
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,7 +108,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705764605426708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 9.961178e-17, z: -8.2}
+  m_LocalPosition: {x: -3.3934832, y: 9.238335e-17, z: -16.90892}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4788744593926678}
@@ -387,7 +388,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!64 &64828318754093684
 MeshCollider:
@@ -415,7 +416,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.23, y: 1.4884408, z: 5.250745}
   m_Center: {x: 0, y: 0.9562535, z: 0.25694418}
---- !u!114 &114897679853966266
+--- !u!114 &114541345804297004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -423,10 +424,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1705764605426708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf85b7d298b07f489bf3cb33d0d7a2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 24ff17556aa75454cb9ebff42b284ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceV: 3
-  distanceH: 4
-  SpeedH: 10
-  SpeedV: 5.5
+  Speed: 10
+  chengeSpeed: 1
+  player: {fileID: 0}
+--- !u!114 &114946176129034292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1705764605426708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3acc4a2607e10494aabad0393a97f2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceV: 0
+  distanceH: 0

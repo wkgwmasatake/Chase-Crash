@@ -740,7 +740,7 @@ Prefab:
     - target: {fileID: 114897679853966266, guid: 95da281e856e7434e8bde3316b0ad643,
         type: 2}
       propertyPath: SpeedV
-      value: 5.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1705764605426708, guid: 95da281e856e7434e8bde3316b0ad643, type: 2}
       propertyPath: m_TagString
