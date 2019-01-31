@@ -8,10 +8,15 @@ public class PlayerController : MonoBehaviour
 
     public float player_speed = 10f;
     public float step_speed = 10f;
+
+    public bool move_flg;//プレイヤーが動いているかどうか  true:移動中 false:待機中
+    public int player_lane;//プレイヤーの現在レーン地点の取得 -7.98:左端  7.98:右端 
+    int max_lane = 7;
+    int min_lane = 0;
     //float moveX = 0f;
 
-    
-    Vector3 Move_X = new Vector3(4, 0, 0);
+    float max_moveX = 7f;
+    Vector3 Move_X = new Vector3(2.66f, 0, 0);
     Vector3 target;//移動場所
     Vector3 prevPos;//移動前の位置の保存
     Rigidbody rb;
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         target = transform.position;
+        player_lane = 4;
     }
 
     void Update()
@@ -70,8 +76,11 @@ public class PlayerController : MonoBehaviour
         if (transform.position == target)
         {
             SetTargetposition();
+            move_flg = false;
         }
+        
         Move();
+        Debug.Log(player_lane);
     }
 
     //void FixedUpdate()
@@ -83,15 +92,18 @@ public class PlayerController : MonoBehaviour
     void SetTargetposition()
     {
         prevPos = target;
+        move_flg = true;
 
-        if (Input.GetKey(KeyCode.D) && transform.position.x < 8)
+        if (Input.GetKey(KeyCode.D) && transform.position.x < max_moveX)
         {
             target = transform.position + Move_X;
+            player_lane++;
             return;
         }
-        if (Input.GetKey(KeyCode.A) && transform.position.x > -8)
+        if (Input.GetKey(KeyCode.A) && transform.position.x > -max_moveX)
         {
             target = transform.position - Move_X;
+            player_lane--;
             return;
         }
     }
@@ -104,5 +116,10 @@ public class PlayerController : MonoBehaviour
     public int ReturnCrashCount()
     {
         return CrashCount;
+    }
+
+    public Transform ReturnPlayerTransform()
+    {
+        return this.transform;
     }
 }
