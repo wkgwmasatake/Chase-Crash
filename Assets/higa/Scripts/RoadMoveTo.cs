@@ -4,30 +4,27 @@ using UnityEngine;
 
 public class RoadMoveTo : MonoBehaviour {
 
-    private float DefPosZ = 170.0f;
-
-    private float PosZ;
-    private Vector3 vDefPos;
+    [SerializeField] float ReStartPosZ;     //リスタートする位置(２つ目のの道路の初めの位置)
+    [SerializeField] float DeletePosZ;      //消すＺ座標
+    private Vector3 bufPos;
+    private float PosZdiff;                 //所定の位置と実際に消えた位置の差分
 
 	// Use this for initialization
 	void Start () {
-
-        vDefPos = new Vector3(0, 0, DefPosZ);
-        PosZ = DefPosZ;
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        this.transform.position -= new Vector3(0, 0, GameStateStash._speed * 1.0f);
+        this.transform.position -= new Vector3(0, 0, GameStateStash._speed * 1.5f);
 
-        if(this.transform.position.z <= -70.0f)
+        if(this.transform.position.z <= DeletePosZ)
         {
-            //PosZ = PosZ - (this.transform.position.z + 70.0f);
-            //vDefPos = new Vector3(0, 0, PosZ);
-            this.transform.position = vDefPos;
-
-            //PosZ = DefPosZ;
+            PosZdiff = this.transform.position.z - DeletePosZ;
+            bufPos = new Vector3(this.transform.position.x, this.transform.position.y, ReStartPosZ + PosZdiff);
+            this.transform.position = bufPos;
         }
+
     }
 }
