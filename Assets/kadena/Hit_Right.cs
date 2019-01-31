@@ -21,17 +21,16 @@ public class Hit_Right : MonoBehaviour {
         Right_col = true;
         if (other.gameObject.tag == "NormalEnemy" )//一般車と衝突
         {
-            Debug.Log("NormalEnemy");
+            GameStateStash.GameOver();
             Destroy(parent.gameObject);
         }
         else if (other.gameObject.tag == "Wall")//壁と衝突
         {
-            Debug.Log("Wall");
+            GameStateStash.GameOver();
             Destroy(parent.gameObject);
         }
         else if(other.gameObject.tag == "Enemy")//特殊敵と衝突
         {
-            Debug.Log("NormalEnemy");
             if(player_check.player_move == false)
             {
                 right_enemy = true;                
