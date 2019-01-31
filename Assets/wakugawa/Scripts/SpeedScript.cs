@@ -9,11 +9,12 @@ public class SpeedScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.GetComponent<Text>().text = GameStateStash._maxSpeed.ToString();
-	}
+        this.GetComponent<Text>().text = Mathf.FloorToInt(GameStateStash._speed * 100).ToString();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        GameStateStash.SpeedUp(0.03f);
+        this.GetComponent<Text>().text = Mathf.FloorToInt(GameStateStash._speed * 100).ToString();
+    }
 }
