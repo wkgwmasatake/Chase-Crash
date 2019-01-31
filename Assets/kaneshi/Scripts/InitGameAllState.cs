@@ -27,7 +27,7 @@ public class InitGameAllState : ScriptableObject
     }
 
     [SerializeField]
-    private float _maxSpeed = 15.0f;
+    private float _maxSpeed = 300.0f;
     public float maxSpeed
     {
         get { return _maxSpeed; }
