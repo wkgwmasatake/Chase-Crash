@@ -7,7 +7,7 @@ TagManager:
   - NormalEnemy
   - Front
   - Wall
-  - ENEMY
+  - Enemy
   layers:
   - Default
   - TransparentFX
