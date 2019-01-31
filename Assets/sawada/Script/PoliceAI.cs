@@ -36,6 +36,8 @@ public class PoliceAI : MonoBehaviour {
     private bool directionFlgR = false;
     private bool directionFlgL = false;
 
+    private int randomMove = 0;                 //これからする行動をランダムで決める
+
     private int changeSpeed;　　　　　　　      //初期速度（倍率）
 
     private string Name;
@@ -51,6 +53,8 @@ public class PoliceAI : MonoBehaviour {
     {
         targetPos = transform.position;
         changeSpeed = 3;
+
+        randomMove = Random.Range(0, 2);
     }
 
     // Update is called once per frame
@@ -196,7 +200,8 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    changeSpeed = 2;
+                    if(randomMove == 1)
+                        changeSpeed = 2;
                     break;
                 case 3:
                     vDirection = RightRay.direction;
@@ -230,7 +235,8 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    changeSpeed = 2;
+                    if (randomMove == 2)
+                        changeSpeed = 2;
                     break;
                 case 3:
                     vDirection = LeftRay.direction;
