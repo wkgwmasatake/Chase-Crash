@@ -7,8 +7,9 @@ public class PoliceMove : MonoBehaviour {
     [SerializeField] private float SpeedZ;      //速さ
     [SerializeField] private float SpeedX;
     [SerializeField] private int chengeSpeed;  //可変速度
+    [SerializeField] private float NextTime;
 
-    [SerializeField] private PlayerController player;
+    private PlayerController player;
 
     private Vector3 Move_X = new Vector3(4.0f, 0.0f, 0.0f);
     private Vector3 targetPos = Vector3.zero;
@@ -20,7 +21,7 @@ public class PoliceMove : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
         chengeSpeed = 1;
 	}
 	
@@ -35,12 +36,12 @@ public class PoliceMove : MonoBehaviour {
             transform.Translate(0, 0, SpeedZ * chengeSpeed * Time.deltaTime);
         }
 
-        if (transform.position.z >= player.GetComponent<PlayerController>().transform.position.z)
+        if (transform.position.z >= player.transform.position.z)
         {
             chengeSpeed = 0;
         }
 
-        if (player.GetComponent<PlayerController>().transform.position.x >= this.transform.position.x)
+        if (player.transform.position.x >= this.transform.position.x)
         {
             //右に動かす
             Debug.Log("みぎ");
@@ -51,13 +52,13 @@ public class PoliceMove : MonoBehaviour {
                 targetPos = transform.position + Move_X;
             }
 
-            if (MoveTime >= 3.5f)
+            if (MoveTime >= NextTime)
             {
                 Debug.Log("aaaaaaaaaaaaaa");
                 MoveTime = 0;
             }
         }
-        else if (player.GetComponent<PlayerController>().transform.position.x <= this.transform.position.x)
+        else if (player.transform.position.x <= this.transform.position.x)
         {
             //左に動かす
             Debug.Log("ひだり");
@@ -68,7 +69,7 @@ public class PoliceMove : MonoBehaviour {
                 targetPos = transform.position - Move_X;
             }
 
-            if (MoveTime >= 3.5f)
+            if (MoveTime >= NextTime)
             {
                 Debug.Log("aaaaaaaaaaaaaa");
 
