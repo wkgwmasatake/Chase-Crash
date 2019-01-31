@@ -12,6 +12,10 @@ using UnityEngine;
 ///     プレイヤーを追跡中は　　　　　　   3
 ///     プレイヤーの隣についたら　　　　   1
 ///     プレイヤーのフロントに当たると　　-1
+///    
+///randomMove
+///     1:プレイヤーの前に
+///     2:プレイヤーにぶつかる
 /// </summary>
 
 public class PoliceAI : MonoBehaviour {
@@ -22,11 +26,13 @@ public class PoliceAI : MonoBehaviour {
     [SerializeField] private float SpeedH;      //PoliceAIの速度
     [SerializeField] private float SpeedV;
 
-    private Vector3 Move_X = new Vector3(4.0f, 0.0f, 0.0f);
+    private bool Player_MoveFlg;
+
+    private Vector3 Move_X = new Vector3(4f, 0.0f, 0.0f);
     private bool MoveFlg = true;               //自機が動いているか判定
     private bool RayFlg = true;                //Rayを出すか判定
 
-    private int FrontFlg = 0;             //自機がフロントの前まで来たか
+    private int FrontFlg = 0;                  //自機がフロントの前まで来たか
 
     private Vector3 vDirection;                //方向(Vector型)
     private int direction;                     //方向(int型)
@@ -36,7 +42,7 @@ public class PoliceAI : MonoBehaviour {
     private bool directionFlgR = false;
     private bool directionFlgL = false;
 
-    private int randomMove = 0;                 //これからする行動をランダムで決める
+    private int randomMove;                 //これからする行動をランダムで決める
 
     private int changeSpeed;　　　　　　　      //初期速度（倍率）
 
@@ -54,7 +60,13 @@ public class PoliceAI : MonoBehaviour {
         targetPos = transform.position;
         changeSpeed = 3;
 
-        //randomMove = Random.Range(0, 2);
+        randomMove = Random.Range(1, 3);
+    }
+
+    //プレイヤー側が参照する動いているかの判定ゲッター
+    public bool _MoveFlg
+    {
+        get { return MoveFlg; }
     }
 
     // Update is called once per frame
@@ -97,13 +109,13 @@ public class PoliceAI : MonoBehaviour {
     //次の目的地を設定する
     void SetTargetPosition()
     {
-        if(direction == 1 && MoveCheckV && transform.position.x < 10)
+        if(direction == 1 && MoveCheckV && transform.position.x < 8)
         {
             targetPos = transform.position + Move_X;
             return;
         }
 
-        if(direction == -1 && MoveCheckV && transform.position.x > -10)
+        if(direction == -1 && MoveCheckV && transform.position.x > -8)
         {
             targetPos = transform.position - Move_X;
             return;
@@ -119,6 +131,11 @@ public class PoliceAI : MonoBehaviour {
             {
                 targetPos = new Vector3(transform.position.x - Move_X.x, 0, vDirection.z + 5);
             }
+        }
+
+        if(randomMove == 2)
+        {
+            targetPos = new Vector3(transform.position.x * vDirection.x + Move_X.x, 0, 0);
         }
     }
 
@@ -200,8 +217,14 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    //if(randomMove == 1)
+                    if (randomMove == 1)
+                    {
                         changeSpeed = 2;
+                    }
+                    else
+                    {
+                        vDirection = RightRay.direction;
+                    }
                     break;
                 case 3:
                     vDirection = RightRay.direction;
@@ -235,8 +258,14 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    //if (randomMove == 2)
+                    if (randomMove == 1)
+                    {
                         changeSpeed = 2;
+                    }
+                    else
+                    {
+                        vDirection = LeftRay.direction;
+                    }
                     break;
                 case 3:
                     vDirection = LeftRay.direction;
@@ -277,5 +306,10 @@ public class PoliceAI : MonoBehaviour {
     {
         //自分自身をデストロイ
         //Destroy(this.gameObject);
+
+        if(other.GetComponent<test5>()._MoveFlg)
+        {
+
+        }
     }
 }
