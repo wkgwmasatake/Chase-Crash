@@ -5,16 +5,46 @@ using UnityEngine.UI;
 
 public class SpeedScript : MonoBehaviour {
 
-    Text SpeedText;
+    byte MaxSpeedArrivalFlg = 0;            // 最大スピードに達したときにちょっとした演出を加える
+    float EffectTime = -1.0f;                   // 演出のための変数
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         this.GetComponent<Text>().text = Mathf.FloorToInt(GameStateStash._speed * 100).ToString();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        GameStateStash.SpeedUp(0.03f);
+        switch(MaxSpeedArrivalFlg)
+        {
+            case 0:
+                EffectTime -= Time.deltaTime;
+                if (EffectTime < 0)
+                {
+                    GameStateStash.SpeedUp(0.03f);
+                    if(GameStateStash._speed >= GameStateStash._maxSpeed)
+                    {
+                        MaxSpeedArrivalFlg = 1;
+                    }
+                }
+                break;
+
+            case 1:
+                EffectTime = Random.Range(10.0f, 20.0f);
+                GameStateStash.SpeedUp(-0.01f);
+                MaxSpeedArrivalFlg = 2;
+                break;
+
+            case 2:
+                EffectTime -= Time.deltaTime;
+                if(EffectTime < 0)
+                {
+                    EffectTime = Random.Range(10.0f, 20.0f);
+                    MaxSpeedArrivalFlg = 0;
+                }
+                break;
+        }
         this.GetComponent<Text>().text = Mathf.FloorToInt(GameStateStash._speed * 100).ToString();
+        Debug.Log(MaxSpeedArrivalFlg);
     }
 }

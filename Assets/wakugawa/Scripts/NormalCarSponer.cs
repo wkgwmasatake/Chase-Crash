@@ -22,6 +22,7 @@ public class NormalCarSponer : MonoBehaviour
     void Update()
     {
         int NowSpawnPoint;  // 現在の生成場所を保存する変数
+
         SpawnTime -= Time.deltaTime;
 
         if (SpawnTime < 0)
@@ -35,7 +36,9 @@ public class NormalCarSponer : MonoBehaviour
 
             OldSpawnPoint = NowSpawnPoint;
             Instantiate(EnemyCar[Random.Range(0, EnemyCar.Length - 1)], SpawnPoint[NowSpawnPoint].transform);
-            SpawnTime = Random.Range(0.2f, 0.8f);
+
+            float PlayerSpeed = Mathf.Round(GameStateStash._speed * 10) / 10;       // 小数第二位以下を偶数丸め
+            SpawnTime = Random.Range(0.2f / PlayerSpeed, 0.8f / PlayerSpeed);       // プレイヤーのスピードに応じて生成間隔を変化
         }
     }
 }
