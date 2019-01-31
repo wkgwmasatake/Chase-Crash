@@ -11,7 +11,7 @@ public class NormalCarControll : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.position -= new Vector3(0, 0, 0.5f);
+        this.transform.position -= new Vector3(0, 0, GameStateStash._speed / 2);
 
         if(this.transform.position.z < -7.0f)
         {
