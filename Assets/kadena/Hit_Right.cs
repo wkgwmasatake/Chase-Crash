@@ -9,6 +9,7 @@ public class Hit_Right : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         Right_col = true;
+        
         other.transform.position = Vector3.MoveTowards(other.transform.position, new Vector3(4, 0, 0), 200 * Time.deltaTime);
         
     }

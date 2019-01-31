@@ -77,7 +77,6 @@ public class PlayerController : MonoBehaviour
         {
             SetTargetposition();
             move_flg = false;
-            if(max_lane == 7 || min_lane == 1) { Destroy(gameObject); }
         }
         
         Move();
