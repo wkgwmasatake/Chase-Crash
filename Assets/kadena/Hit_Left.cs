@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Hit_Left : MonoBehaviour
 {
-
     public bool Left_col = false;
     public bool left_enemy;
     public GameObject parent;
@@ -16,7 +15,6 @@ public class Hit_Left : MonoBehaviour
         parent = transform.parent.gameObject;
         left_enemy = false;
         player_check = player.GetComponent<PlayerController>();
-
     }
     void OnTriggerEnter(Collider other)
     {
@@ -42,7 +40,8 @@ public class Hit_Left : MonoBehaviour
             else
             {
                 Debug.Log("Blast!!");
-                other.transform.position = Vector3.MoveTowards(other.transform.position, new Vector3(other.transform.position.x - 4, 0, 0), 200 * Time.deltaTime);
+                other.transform.position = Vector3.MoveTowards(other.transform.position,
+                    new Vector3(other.transform.position.x - 4, 0.5f, 0), 200 * Time.deltaTime);
             }
         }
     }
