@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Back_col: 0
+  parent: {fileID: 0}
 --- !u!114 &114247815584787562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_speed: 10
   step_speed: 10
-  move_flg: 0
+  player_move: 0
   player_lane: 0
   Front: {fileID: 1429606405017870}
   Back: {fileID: 1820306153609988}
@@ -327,6 +328,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Left_col: 0
+  left_enemy: 0
+  parent: {fileID: 1888772333785384}
+  player: {fileID: 1888772333785384}
 --- !u!114 &114796250083072610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -351,4 +355,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Right_col: 0
-  player_controller: {fileID: 0}
+  right_enemy: 0
+  parent: {fileID: 1888772333785384}
+  player: {fileID: 1888772333785384}
