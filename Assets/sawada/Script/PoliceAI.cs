@@ -26,6 +26,8 @@ public class PoliceAI : MonoBehaviour {
     [SerializeField] private float SpeedH;      //PoliceAIの速度
     [SerializeField] private float SpeedV;
 
+    private PlayerCollider player;
+    
     private bool Player_MoveFlg;
 
     private Vector3 Move_X = new Vector3(4f, 0.0f, 0.0f);
@@ -64,7 +66,7 @@ public class PoliceAI : MonoBehaviour {
         targetPos = transform.position;
         changeSpeed = 3;
 
-        randomMove = 2/*Random.Range(1, 3)*/;
+        randomMove = Random.Range(1, 3);
     }
 
     //プレイヤー側が参照する動いているかの判定ゲッター
@@ -108,6 +110,10 @@ public class PoliceAI : MonoBehaviour {
         }
         Move();
 
+        if(player.GetComponent<PlayerController>().ReturnPlayerTransform().position.z <= transform.position.z)
+        {
+            changeSpeed = 0;
+        }
     }
 
     //次の目的地を設定する
@@ -126,19 +132,19 @@ public class PoliceAI : MonoBehaviour {
             return;
         }
 
-        //if (FrontFlg == 1)
-        //{
-        //    if (vDirection.normalized.x == 1)
-        //    {
-        //        targetPos = new Vector3(transform.position.x + Move_X.x, 0, vDirection.z + 5);
-        //    }
-        //    if (vDirection.normalized.x == -1)
-        //    {
-        //        targetPos = new Vector3(transform.position.x - Move_X.x, 0, vDirection.z + 5);
-        //    }
-        //}
+        if (FrontFlg == 1)
+        {
+            if (vDirection.normalized.x == 1)
+            {
+                targetPos = new Vector3(transform.position.x + Move_X.x, 0, vDirection.z + 5);
+            }
+            if (vDirection.normalized.x == -1)
+            {
+                targetPos = new Vector3(transform.position.x - Move_X.x, 0, vDirection.z + 5);
+            }
+        }
 
-        if(randomMove == 2 && AttackFlg)
+        if (randomMove == 2 && AttackFlg)
         {
             if (vDirection.normalized.x == 1)
             {
@@ -235,7 +241,7 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    changeSpeed = 0;
+                    //changeSpeed = 0;
                     if (randomMove == 1)
                     {
                         changeSpeed = 2;
@@ -278,7 +284,7 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    changeSpeed = 0;
+                    //changeSpeed = 0;
                     if (randomMove == 1)
                     {
                         changeSpeed = 2;
@@ -309,10 +315,10 @@ public class PoliceAI : MonoBehaviour {
             return 1;
         }
 
-        if(tag == "Player")
-        {
-            return 2;
-        }
+        //if(tag == "Player")
+        //{
+        //    return 2;
+        //}
 
         if(tag == "Front")
         {
@@ -329,24 +335,30 @@ public class PoliceAI : MonoBehaviour {
         //自分自身をデストロイ
         if (other.gameObject.tag == "Wall" || other.gameObject.tag == "NormalEnemy")
         {
-            //Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
 
         if (other.gameObject.tag == "Player")
         {
             //ぶつかった相手が動いていたら
-            if (other.GetComponent<PlayerController>()._player_move)
+            if (other.gameObject.GetComponent<PlayerController>()._player_move)
             {
-                
+
             }
             //ぶつかった相手が動いていなかったら
-            else if (!other.GetComponent<PlayerController>()._player_move)
+            else if (!other.gameObject.GetComponent<PlayerController>()._player_move)
             {
                 randomMove = Random.Range(1, 3);
                 AttackFlg = false;
 
-                changeSpeed = 0;
+                //changeSpeed = 0;
             }
         }
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
     }
 }

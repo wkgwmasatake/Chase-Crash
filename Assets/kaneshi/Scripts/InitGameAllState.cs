@@ -27,7 +27,7 @@ public class InitGameAllState : ScriptableObject
     }
 
     [SerializeField]
-    private float _maxSpeed = 15.0f;
+    private float _maxSpeed = 3.0f;
     public float maxSpeed
     {
         get { return _maxSpeed; }
@@ -53,4 +53,15 @@ public class InitGameAllState : ScriptableObject
     {
         get { return _breakCarMaxCount; }
     }
+
+    /// <summary>
+    /// ゲームオーバーフラグ
+    /// </summary>
+    [SerializeField]
+    private bool _gameOverFlg = false;
+    public bool gameOverFlg
+    {
+        get { return _gameOverFlg; }
+    }
+
 }

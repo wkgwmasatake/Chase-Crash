@@ -26,7 +26,6 @@ public class Hit_Right : MonoBehaviour {
         }
         else if (other.gameObject.tag == "Wall")//壁と衝突
         {
-            
             Debug.Log("Wall");
             Destroy(parent.gameObject);
         }
@@ -35,15 +34,14 @@ public class Hit_Right : MonoBehaviour {
             Debug.Log("NormalEnemy");
             if(player_check.player_move == false)
             {
-                right_enemy = true;
-                
+                right_enemy = true;                
             }
             else
             {
                 Debug.Log("Blast!!");
-                other.transform.position = Vector3.MoveTowards(other.transform.position, new Vector3(other.transform.position.x + 4, 0, 0), 200 * Time.deltaTime);
+                other.transform.position = Vector3.MoveTowards(other.transform.position,
+                    new Vector3(other.transform.position.x + 4, 0.5f, 0), 200 * Time.deltaTime);
             }
-
         }
     }
 }
