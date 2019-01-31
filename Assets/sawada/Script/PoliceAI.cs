@@ -54,7 +54,7 @@ public class PoliceAI : MonoBehaviour {
         targetPos = transform.position;
         changeSpeed = 3;
 
-        randomMove = Random.Range(0, 2);
+        //randomMove = Random.Range(0, 2);
     }
 
     // Update is called once per frame
@@ -97,13 +97,13 @@ public class PoliceAI : MonoBehaviour {
     //次の目的地を設定する
     void SetTargetPosition()
     {
-        if(direction == 1 && MoveCheckV && transform.position.x < 8)
+        if(direction == 1 && MoveCheckV && transform.position.x < 10)
         {
             targetPos = transform.position + Move_X;
             return;
         }
 
-        if(direction == -1 && MoveCheckV && transform.position.x > -8)
+        if(direction == -1 && MoveCheckV && transform.position.x > -10)
         {
             targetPos = transform.position - Move_X;
             return;
@@ -200,7 +200,7 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    if(randomMove == 1)
+                    //if(randomMove == 1)
                         changeSpeed = 2;
                     break;
                 case 3:
@@ -235,7 +235,7 @@ public class PoliceAI : MonoBehaviour {
                 case 1:
                     break;
                 case 2:
-                    if (randomMove == 2)
+                    //if (randomMove == 2)
                         changeSpeed = 2;
                     break;
                 case 3:
@@ -276,6 +276,6 @@ public class PoliceAI : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         //自分自身をデストロイ
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
     }
 }
