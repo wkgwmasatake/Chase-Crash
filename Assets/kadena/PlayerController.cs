@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float player_speed = 10f;
     public float step_speed = 10f;
 
-    public bool move_flg;//プレイヤーが動いているかどうか  true:移動中 false:待機中
+    public bool player_move;//プレイヤーが動いているかどうか  true:移動中 false:待機中
     public int player_lane;//プレイヤーの現在レーン地点の取得 -7.98:左端  7.98:右端 
     int max_lane = 7;
     int min_lane = 0;
@@ -76,11 +76,15 @@ public class PlayerController : MonoBehaviour
         if (transform.position == target)
         {
             SetTargetposition();
-            move_flg = false;
+            player_move = false;
+        }
+        else
+        {
+            player_move = true;
         }
         
         Move();
-        Debug.Log(player_lane);
+        Debug.Log(player_move);
     }
 
     //void FixedUpdate()
@@ -88,11 +92,14 @@ public class PlayerController : MonoBehaviour
     //    rb.velocity = new Vector3(moveX, 0, 0);
     //}
 
+    public bool _player_move
+    {
+        get { return player_move; }
+    }
 
     void SetTargetposition()
     {
         prevPos = target;
-        move_flg = true;
 
         if (Input.GetKey(KeyCode.D) && transform.position.x < max_moveX)
         {
