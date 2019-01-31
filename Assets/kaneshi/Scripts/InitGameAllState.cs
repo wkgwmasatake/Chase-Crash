@@ -53,4 +53,15 @@ public class InitGameAllState : ScriptableObject
     {
         get { return _breakCarMaxCount; }
     }
+
+    /// <summary>
+    /// ゲームオーバーフラグ
+    /// </summary>
+    [SerializeField]
+    private bool _gameOverFlg = false;
+    public bool gameOverFlg
+    {
+        get { return _gameOverFlg; }
+    }
+
 }
