@@ -44,28 +44,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
-        if (player_front.Front_col == true)
-        {
-            Debug.Log("Front_Hit!!  GameOver!!");
-            player_front.Front_col = false;
-        }
-        else if (player_back.Back_col == true)
-        {
-            Debug.Log("Back_Hit!!後ろから！");
-            player_back.Back_col = false;
-        }
-        else if (player_left.Left_col == true)
-        {
-            Debug.Log("Left_hit!左から！");
-            player_left.Left_col = false;
-        }
-        else if (player_right.Right_col == true)
-        {
-            Debug.Log("Right_Hit!!右から！");
-
-            player_right.Right_col = false;
-        }
+    {       
         if (transform.position == target)
         {
             SetTargetposition();
@@ -102,13 +81,14 @@ public class PlayerController : MonoBehaviour
     {
         prevPos = target;//移動前の位置を保存
 
-        if (Input.GetKeyDown(KeyCode.D) && transform.position.x < max_moveX || player_left.left_enemy == true)
+        if (Input.GetKeyDown(KeyCode.D) && transform.position.x < max_moveX || player_left.left_enemy == true && player_move == false)
         {
             target = transform.position + Move_X;
             player_lane++;
             return;
         }
-        else if (Input.GetKeyDown(KeyCode.A) && transform.position.x > -max_moveX || player_right.right_enemy == true)
+        
+        else if (Input.GetKeyDown(KeyCode.A) && transform.position.x > -max_moveX || player_right.right_enemy == true && player_move == false)
         {
             target = transform.position - Move_X;
             player_lane--;
@@ -125,6 +105,4 @@ public class PlayerController : MonoBehaviour
     {
         return this.transform;
     }
-
-
 }
