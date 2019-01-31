@@ -14,7 +14,7 @@ public class Hit_Back : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         Back_col = true;
-        if (other.gameObject.tag == "NormalEnemy")//
+        if (other.gameObject.tag == "NormalEnemy")
         {
             Debug.Log("NormalEnemy");
             Destroy(parent.gameObject);

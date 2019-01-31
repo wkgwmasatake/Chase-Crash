@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     int CrashCount;
@@ -17,8 +16,10 @@ public class PlayerController : MonoBehaviour
 
     float max_moveX = 7f;
     Vector3 Move_X = new Vector3(2.66f, 0, 0);
-    Vector3 target;//移動場所
-    Vector3 prevPos;//移動前の位置の保存
+    Vector3 target;//入力受付時、移動後の位置を算出して保存 
+
+    Vector3 prevPos;//// 何らかの理由で移動できなかった場合、元の位置に戻すため移動前の位置を保存
+
     Rigidbody rb;
 
     //当たり判定用オブジェクト
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
         player_left = Left.GetComponent<Hit_Left>();
         player_right = Right.GetComponent<Hit_Right>();
         rb = GetComponent<Rigidbody>();
-
+        
         target = transform.position;
         player_lane = 4;
     }
@@ -54,7 +55,6 @@ public class PlayerController : MonoBehaviour
         if (player_front.Front_col == true)
         {
             Debug.Log("Front_Hit!!  GameOver!!");
-            //SceneManager.LoadScene("GameOver");//ゲームオーバー処理に移行する処理
             player_front.Front_col = false;
         }
         else if (player_back.Back_col == true)
@@ -77,6 +77,14 @@ public class PlayerController : MonoBehaviour
         {
             SetTargetposition();
             player_move = false;
+            if(player_right.right_enemy == true)
+            {
+                player_right.right_enemy =false;
+            }
+            else if (player_left.left_enemy == true)
+            {
+                player_left.left_enemy = false;
+            }
         }
         else
         {
@@ -99,15 +107,15 @@ public class PlayerController : MonoBehaviour
 
     void SetTargetposition()
     {
-        prevPos = target;
+        prevPos = target;//移動前の位置を保存
 
-        if (Input.GetKey(KeyCode.D) && transform.position.x < max_moveX)
+        if (Input.GetKey(KeyCode.D) && transform.position.x < max_moveX || player_left.left_enemy == true)
         {
             target = transform.position + Move_X;
             player_lane++;
             return;
         }
-        if (Input.GetKey(KeyCode.A) && transform.position.x > -max_moveX)
+        if (Input.GetKey(KeyCode.A) && transform.position.x > -max_moveX || player_right.right_enemy == true)
         {
             target = transform.position - Move_X;
             player_lane--;
