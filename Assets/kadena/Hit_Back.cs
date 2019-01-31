@@ -16,8 +16,8 @@ public class Hit_Back : MonoBehaviour {
         Back_col = true;
         if (other.gameObject.tag == "NormalEnemy")
         {
-            Destroy(parent.gameObject);
             GameStateStash.GameOver();
+            Destroy(parent.gameObject);
         }
     }
 }

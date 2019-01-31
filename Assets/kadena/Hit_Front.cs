@@ -16,9 +16,8 @@ public class Hit_Front : MonoBehaviour {
         Front_col = true;
         if (other.gameObject.tag == "NormalEnemy")
         {
-            Debug.Log("NormalEnemy");
-            Destroy(parent.gameObject);
             GameStateStash.GameOver();
+            Destroy(parent.gameObject);
         }
     }
 }

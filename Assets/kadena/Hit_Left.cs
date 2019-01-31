@@ -21,15 +21,13 @@ public class Hit_Left : MonoBehaviour
         Left_col = true;
         if (other.gameObject.tag == "NormalEnemy")//一般車と衝突
         {
-            Debug.Log("NormalEnemy");
-            Destroy(parent.gameObject);
             GameStateStash.GameOver();
+            Destroy(parent.gameObject);
         }
         else if (other.gameObject.tag == "Wall")//壁と衝突
         {
-            Debug.Log("Wall");
-            Destroy(parent.gameObject);
             GameStateStash.GameOver();
+            Destroy(parent.gameObject);
         }
         else if (other.gameObject.tag == "Enemy")//特殊敵と衝突
         {
