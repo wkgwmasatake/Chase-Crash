@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResultUIController : MonoBehaviour
+public class UIController : MonoBehaviour
 {
     public Text Score;
     public Text Score_Shadow;
