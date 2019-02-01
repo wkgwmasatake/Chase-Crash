@@ -78,4 +78,9 @@ public class GameStateStash : MonoBehaviour {
     {
         _gameOverFlg = true;
     }
+
+    public static void reStart()
+    {
+        _gameOverFlg = false;
+    }
 }

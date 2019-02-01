@@ -9,6 +9,8 @@ public class PoliceMove : MonoBehaviour {
     [SerializeField] private int chengeSpeed;  //可変速度
     [SerializeField] private float NextTime;
 
+    public GameObject BombEffect;
+
     private PlayerController player;
 
     private Vector3 Move_X = new Vector3(4.0f, 0.0f, 0.0f);
@@ -18,15 +20,11 @@ public class PoliceMove : MonoBehaviour {
     private float MoveSpan = 3.0f;       //３秒間隔で移動
     private float MoveFlg = 0;
 
-    //オーディオ
-    public AudioClip BomSE;
-
-    private AudioSource SE;
+    private static bool _DestroyFlg = false;
 
 	// Use this for initialization
 	void Start ()
     {
-        BomSE = GetComponent<AudioClip>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         chengeSpeed = 1;
 	}
@@ -97,10 +95,29 @@ public class PoliceMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            SE.Stop();
-            SE.clip = BomSE;
-            SE.Play();
+            GameObject prefub = Instantiate(BombEffect) as GameObject;
+            prefub.transform.position = transform.position;
+
+            DestroyFlg = true;
             Destroy(this.gameObject);
+        }
+
+        if(other.gameObject.tag == "Wall")
+        {
+            GameObject prefub = Instantiate(BombEffect) as GameObject;
+            prefub.transform.position = transform.position;
+
+            DestroyFlg = true;
+            Destroy(this.gameObject);
+        }
+    }
+    
+    public static bool DestroyFlg
+    {
+        get { return _DestroyFlg; }
+        set
+        {
+            _DestroyFlg = value;
         }
     }
 }

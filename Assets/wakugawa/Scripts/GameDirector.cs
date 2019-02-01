@@ -5,12 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameDirector : MonoBehaviour {
 
-    private uint tes; 
-
-	// Use this for initialization
-	void Start () {
-
-    }
+    private uint tes;
+    public GameObject SceneMove;
 	
 	// Update is called once per frame
 	void Update () {
@@ -18,7 +14,8 @@ public class GameDirector : MonoBehaviour {
         {
             PlayerPrefs.SetInt("score", (int)GameStateStash._score);
             PlayerPrefs.SetInt("BreakCarCount", (int)GameStateStash._breakCarCount);
-            SceneManager.LoadScene("ResultScene");
+            Instantiate(SceneMove);
+            GameStateStash.reStart();
         }
 	}
 }
