@@ -107,9 +107,10 @@ GameObject:
   - component: {fileID: 33835112235581476}
   - component: {fileID: 23746514479477278}
   - component: {fileID: 114069019463305402}
+  - component: {fileID: 65337834392601074}
   m_Layer: 0
   m_Name: guardrail_root_L
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -515,6 +516,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1716083745175484}
   m_Mesh: {fileID: 4300000, guid: bda808cd0a7321a448f5226a4ba8fbef, type: 3}
+--- !u!65 &65337834392601074
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666604857980122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0066088056, y: 0.70376414, z: 0.023035068}
+  m_Center: {x: 0.0016340689, y: -0.3, z: -0.0059762755}
 --- !u!114 &114069019463305402
 MonoBehaviour:
   m_ObjectHideFlags: 1
