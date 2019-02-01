@@ -19,7 +19,7 @@ public class PoliceCarSponer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         time += Time.deltaTime;
-        if(time > 5)               // 一定時間経過後に生成(結合後に変更)
+        if(time > 3)               // 一定時間経過後に生成(結合後に変更)
         {
             Transform PlayerTransform = PlayerInfo.GetComponent<PlayerController>().ReturnPlayerTransform();
 
