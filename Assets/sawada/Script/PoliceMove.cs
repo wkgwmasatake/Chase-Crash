@@ -21,6 +21,8 @@ public class PoliceMove : MonoBehaviour {
     //オーディオ
     public AudioClip BomSE;
 
+    private AudioSource SE;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -95,7 +97,9 @@ public class PoliceMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            //BomSE.
+            SE.Stop();
+            SE.clip = BomSE;
+            SE.Play();
             Destroy(this.gameObject);
         }
     }
