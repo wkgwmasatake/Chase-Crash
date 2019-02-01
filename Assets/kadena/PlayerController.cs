@@ -83,14 +83,16 @@ public class PlayerController : MonoBehaviour
     {
         prevPos = target;//移動前の位置を保存
 
-        if (Input.GetKeyDown(KeyCode.D) && transform.position.x < max_moveX || player_left.left_enemy == true && player_move == false)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x < max_moveX || Input.GetKeyDown(KeyCode.D) &&
+            transform.position.x < max_moveX || player_left.left_enemy == true && player_move == false)
         {
             target = transform.position + Move_X;
             player_lane++;
             return;
         }
         
-        else if (Input.GetKeyDown(KeyCode.A) && transform.position.x > -max_moveX || player_right.right_enemy == true && player_move == false)
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x < max_moveX || Input.GetKeyDown(KeyCode.A) &&
+            transform.position.x > -max_moveX || player_right.right_enemy == true && player_move == false)
         {
             target = transform.position - Move_X;
             player_lane--;
