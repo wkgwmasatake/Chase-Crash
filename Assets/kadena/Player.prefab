@@ -703,6 +703,7 @@ MonoBehaviour:
   right_enemy: 0
   parent: {fileID: 1790544145087332}
   player: {fileID: 1790544145087332}
+  impulse_Power: 30
 --- !u!114 &114152219462464432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -718,6 +719,7 @@ MonoBehaviour:
   left_enemy: 0
   parent: {fileID: 1790544145087332}
   player: {fileID: 1790544145087332}
+  impulse_Power: 30
 --- !u!114 &114281406146248722
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,6 +9,7 @@ public class Hit_Right : MonoBehaviour {
     public GameObject parent;
     public GameObject player;
     PlayerController player_check;
+    [SerializeField] private float impulse_Power = 50f;
     void Start()
     {
         parent = transform.parent.gameObject;
@@ -38,8 +39,11 @@ public class Hit_Right : MonoBehaviour {
             else
             {
                 Debug.Log("Blast!!");
-                other.transform.position = Vector3.MoveTowards(other.transform.position,
-                    new Vector3(other.transform.position.x + 4, 0.5f, 0), 200 * Time.deltaTime);
+                var rigid = other.gameObject.GetComponent<Rigidbody>();
+                var impulse = (rigid.position - transform.parent.position).normalized * impulse_Power;
+                rigid.AddForce(impulse, ForceMode.Impulse);
+                //other.transform.position = Vector3.MoveTowards(other.transform.position,
+                //    new Vector3(other.transform.position.x + 4, 0.5f, 0), 200 * Time.deltaTime);
             }
         }
     }
