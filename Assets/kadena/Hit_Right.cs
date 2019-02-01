@@ -10,11 +10,17 @@ public class Hit_Right : MonoBehaviour {
     public GameObject player;
     PlayerController player_check;
     [SerializeField] private float impulse_Power = 50f;
+
+    private AudioSource audiosource;
+
+    [SerializeField] AudioClip SE_hit;
+
     void Start()
     {
         parent = transform.parent.gameObject;
         right_enemy = false;
         player_check = player.GetComponent<PlayerController>();
+        audiosource = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -32,7 +38,8 @@ public class Hit_Right : MonoBehaviour {
         }
         else if(other.gameObject.tag == "Enemy")//特殊敵と衝突
         {
-            if(player_check.player_move == false)
+            audiosource.PlayOneShot(SE_hit);
+            if (player_check.player_move == false)
             {
                 right_enemy = true;                
             }

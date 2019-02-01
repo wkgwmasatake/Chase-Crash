@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
+    
+
     //当たり判定用オブジェクト
     [SerializeField] GameObject Front;
     [SerializeField] GameObject Back;
