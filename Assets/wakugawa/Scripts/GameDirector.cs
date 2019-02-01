@@ -16,8 +16,9 @@ public class GameDirector : MonoBehaviour {
 	void Update () {
         if(GameStateStash._gameOverFlg)         // gameoverflgがtrueならシーン遷移
         {
-            //SceneManager.LoadScene("GameOverScene");
-            Debug.Log("ゲームオーバーに遷移");
+            PlayerPrefs.SetInt("score", (int)GameStateStash._score);
+            PlayerPrefs.SetInt("BreakCarCount", (int)GameStateStash._breakCarCount);
+            SceneManager.LoadScene("ResultScene");
         }
 	}
 }
