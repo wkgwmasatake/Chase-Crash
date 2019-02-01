@@ -39,6 +39,8 @@ public class Hit_Right : MonoBehaviour {
         else if(other.gameObject.tag == "Enemy")//特殊敵と衝突
         {
             audiosource.PlayOneShot(SE_hit);
+            GameStateStash.BreakCarCountUp();
+            GameStateStash.AddScore(10);
             if (player_check.player_move == false)
             {
                 right_enemy = true;                

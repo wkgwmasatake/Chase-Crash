@@ -38,6 +38,8 @@ public class Hit_Left : MonoBehaviour
         else if (other.gameObject.tag == "Enemy")//特殊敵と衝突
         {
             hit_SE.PlayOneShot(SE_hit);
+            GameStateStash.BreakCarCountUp();
+            GameStateStash.AddScore(10);
             if (player_check.player_move == false)
             {
                 left_enemy = true;
