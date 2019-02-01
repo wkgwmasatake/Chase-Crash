@@ -18,9 +18,15 @@ public class PoliceMove : MonoBehaviour {
     private float MoveSpan = 3.0f;       //３秒間隔で移動
     private float MoveFlg = 0;
 
+    //オーディオ
+    public AudioClip BomSE;
+
+    private AudioSource SE;
+
 	// Use this for initialization
 	void Start ()
     {
+        BomSE = GetComponent<AudioClip>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         chengeSpeed = 1;
 	}
@@ -41,39 +47,42 @@ public class PoliceMove : MonoBehaviour {
             chengeSpeed = 0;
         }
 
-        if (player.transform.position.x >= this.transform.position.x)
+        if (!GetComponent<PoliceAI_2>().RightRay || !GetComponent<PoliceAI_2>().LeftRay)
         {
-            //右に動かす
-            Debug.Log("みぎ");
-            if (MoveTime >= MoveSpan)
+            if (player.transform.position.x >= this.transform.position.x)
             {
-                MoveFlg = 1;
-                Move();
-                targetPos = transform.position + Move_X;
-            }
+                //右に動かす
+                Debug.Log("みぎ");
+                if (MoveTime >= MoveSpan)
+                {
+                    MoveFlg = 1;
+                    Move();
+                    targetPos = transform.position + Move_X;
+                }
 
-            if (MoveTime >= NextTime)
-            {
-                Debug.Log("aaaaaaaaaaaaaa");
-                MoveTime = 0;
+                if (MoveTime >= NextTime)
+                {
+                    Debug.Log("aaaaaaaaaaaaaa");
+                    MoveTime = 0;
+                }
             }
-        }
-        else if (player.transform.position.x <= this.transform.position.x)
-        {
-            //左に動かす
-            Debug.Log("ひだり");
-            if (MoveTime >= MoveSpan)
+            else if (player.transform.position.x <= this.transform.position.x)
             {
-                MoveFlg = -1;
-                Move();
-                targetPos = transform.position - Move_X;
-            }
+                //左に動かす
+                Debug.Log("ひだり");
+                if (MoveTime >= MoveSpan)
+                {
+                    MoveFlg = -1;
+                    Move();
+                    targetPos = transform.position - Move_X;
+                }
 
-            if (MoveTime >= NextTime)
-            {
-                Debug.Log("aaaaaaaaaaaaaa");
+                if (MoveTime >= NextTime)
+                {
+                    Debug.Log("aaaaaaaaaaaaaa");
 
-                MoveTime = 0;
+                    MoveTime = 0;
+                }
             }
         }
     }
@@ -88,6 +97,9 @@ public class PoliceMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
+            SE.Stop();
+            SE.clip = BomSE;
+            SE.Play();
             Destroy(this.gameObject);
         }
     }
