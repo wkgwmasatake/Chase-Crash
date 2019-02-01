@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SpeedScript : MonoBehaviour {
 
     byte MaxSpeedArrivalFlg = 0;            // 最大スピードに達したときにちょっとした演出を加える
-    float EffectTime = -1.0f;                   // 演出のための変数
+    float EffectTime = 1.0f;                   // 演出のための変数
 
     // Use this for initialization
     void Start () {
@@ -18,19 +18,20 @@ public class SpeedScript : MonoBehaviour {
         switch(MaxSpeedArrivalFlg)
         {
             case 0:
-                EffectTime -= Time.deltaTime;
-                if (EffectTime < 0)
+                GameStateStash.SpeedUp(0.03f);
+                if(GameStateStash._speed >= GameStateStash._maxSpeed)
                 {
-                    GameStateStash.SpeedUp(0.03f);
-                    if(GameStateStash._speed >= GameStateStash._maxSpeed)
+                    EffectTime -= Time.deltaTime;
+                    if (EffectTime < 0)
                     {
                         MaxSpeedArrivalFlg = 1;
                     }
                 }
+                
                 break;
 
             case 1:
-                EffectTime = Random.Range(10.0f, 20.0f);
+                EffectTime = Random.Range(1.0f, 2.5f);
                 GameStateStash.SpeedUp(-0.01f);
                 MaxSpeedArrivalFlg = 2;
                 break;
@@ -39,7 +40,7 @@ public class SpeedScript : MonoBehaviour {
                 EffectTime -= Time.deltaTime;
                 if(EffectTime < 0)
                 {
-                    EffectTime = Random.Range(10.0f, 20.0f);
+                    EffectTime = Random.Range(1.0f, 3.0f);
                     MaxSpeedArrivalFlg = 0;
                 }
                 break;
