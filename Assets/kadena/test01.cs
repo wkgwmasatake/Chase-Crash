@@ -11,7 +11,7 @@ public class test01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //this.transform.Translate(-0.01f, 0, 0);//左移動
-        this.transform.Translate(0.01f, 0, 0);//右移動
+        this.transform.Translate(-0.01f, 0, 0);//左移動
+        //this.transform.Translate(0.01f, 0, 0);//右移動
     }
 }

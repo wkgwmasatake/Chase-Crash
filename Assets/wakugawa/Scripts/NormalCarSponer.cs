@@ -38,7 +38,7 @@ public class NormalCarSponer : MonoBehaviour
             Instantiate(EnemyCar[Random.Range(0, EnemyCar.Length - 1)], SpawnPoint[NowSpawnPoint].transform);
 
             float PlayerSpeed = Mathf.Round(GameStateStash._speed * 10) / 10;       // 小数第二位以下を偶数丸め
-            SpawnTime = Random.Range(0.2f / PlayerSpeed, 0.8f / PlayerSpeed);       // プレイヤーのスピードに応じて生成間隔を変化
+            SpawnTime = Random.Range(0.6f / (PlayerSpeed - 0.5f), 1.2f / (PlayerSpeed - 0.5f));       // プレイヤーのスピードに応じて生成間隔を変化
         }
     }
 }
