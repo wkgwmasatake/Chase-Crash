@@ -8,7 +8,7 @@ public class MoveScene : MonoBehaviour
     public float WaitTime = 7.0f;
     public string SceneName = "";
     private float nowTime;
-    private bool Startflg = false;
+    public bool Startflg = false;
 	
 	// Update is called once per frame
 	void Update ()

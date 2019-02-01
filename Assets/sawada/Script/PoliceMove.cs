@@ -9,6 +9,8 @@ public class PoliceMove : MonoBehaviour {
     [SerializeField] private int chengeSpeed;  //可変速度
     [SerializeField] private float NextTime;
 
+    public GameObject BombEffect;
+
     private PlayerController player;
 
     private Vector3 Move_X = new Vector3(4.0f, 0.0f, 0.0f);
@@ -93,13 +95,19 @@ public class PoliceMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            _DestroyFlg = true;
+            GameObject prefub = Instantiate(BombEffect) as GameObject;
+            prefub.transform.position = transform.position;
+
+            DestroyFlg = true;
             Destroy(this.gameObject);
         }
 
         if(other.gameObject.tag == "Wall")
         {
-            _DestroyFlg = true;
+            GameObject prefub = Instantiate(BombEffect) as GameObject;
+            prefub.transform.position = transform.position;
+
+            DestroyFlg = true;
             Destroy(this.gameObject);
         }
     }

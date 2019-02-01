@@ -689,12 +689,12 @@ Prefab:
     - target: {fileID: 224649922059749456, guid: 72c18010e1da0b64f9d356d2ed8d6cc0,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 207
+      value: 210.5
       objectReference: {fileID: 0}
     - target: {fileID: 224649922059749456, guid: 72c18010e1da0b64f9d356d2ed8d6cc0,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 116.5
+      value: 118.5
       objectReference: {fileID: 0}
     - target: {fileID: 224649922059749456, guid: 72c18010e1da0b64f9d356d2ed8d6cc0,
         type: 2}
@@ -938,6 +938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d54a8f5b58e25488738c97eaa3d62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneMove: {fileID: 1858510827639916, guid: 6b140c50f4d15aa48852fc34d55a68af, type: 2}
 --- !u!4 &1366131889
 Transform:
   m_ObjectHideFlags: 0
