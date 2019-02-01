@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _score: 0
   _speed: 1
-  _maxSpeed: 15
+  _maxSpeed: 3
   _breakCarCount: 0
   _breakCarMaxCount: 100
+  _gameOverFlg: 0
