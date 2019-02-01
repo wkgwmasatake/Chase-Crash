@@ -18,15 +18,11 @@ public class PoliceMove : MonoBehaviour {
     private float MoveSpan = 3.0f;       //３秒間隔で移動
     private float MoveFlg = 0;
 
-    //オーディオ
-    public AudioClip BomSE;
-
-    private AudioSource SE;
+    private static bool _DestroyFlg = false;
 
 	// Use this for initialization
 	void Start ()
     {
-        BomSE = GetComponent<AudioClip>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         chengeSpeed = 1;
 	}
@@ -97,10 +93,23 @@ public class PoliceMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            SE.Stop();
-            SE.clip = BomSE;
-            SE.Play();
+            _DestroyFlg = true;
             Destroy(this.gameObject);
+        }
+
+        if(other.gameObject.tag == "Wall")
+        {
+            _DestroyFlg = true;
+            Destroy(this.gameObject);
+        }
+    }
+    
+    public static bool DestroyFlg
+    {
+        get { return _DestroyFlg; }
+        set
+        {
+            _DestroyFlg = value;
         }
     }
 }
